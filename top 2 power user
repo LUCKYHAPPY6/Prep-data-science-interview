@@ -1,4 +1,4 @@
-Write a query to identify the top 2 Power Users who sent the highest number of messages on Microsoft Teams in August 2022. Display the IDs of these 2 users along with the total number of messages they sent. Output the results in descending order based on the count of the messages.
+#1 Write a query to identify the top 2 Power Users who sent the highest number of messages on Microsoft Teams in August 2022. Display the IDs of these 2 users along with the total number of messages they sent. Output the results in descending order based on the count of the messages.
 
 Assumption:
 
@@ -10,3 +10,17 @@ where date_trunc('month', sent_date) = '2022-08-01'
 group by sender_id
 order by message_count DESC
 limit 2;
+
+#2 Assume you're given a table containing job postings from various companies on the LinkedIn platform. Write a query to retrieve the count of companies that have posted duplicate job listings.
+
+Definition:
+
+Duplicate job listings are defined as two job listings within the same company that share identical titles and descriptions.
+
+with job_cnt AS(
+select company_id, title, description, count(job_id) as cnt from job_listings
+group by 1,2,3)
+
+select count(company_id)
+from job_cnt
+where cnt >1;
