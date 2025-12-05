@@ -1,0 +1,27 @@
+#1. Say you flip a coin 10 times and observe only one heads. What would be your null hypothesis and p-value for testing whether the coin is fair or not?
+Solution
+The null hypothesis is that the coin is fair, and the alternative hypothesis is that the coin is biased: biased towards tails (note that this a one-sided test):
+
+H0: p0 = 0.5
+H1: p0 < 0.5
+
+Since the sample size here is 10, you cannot apply the Central Limit Theorem and so cannot approximate a binomial using a normal distribution.
+
+The p-value here is the probability of observing the results obtained given that the null hypothesis is true, i.e., under the assumption that the coin is fair. For 10 flips of a coin, there are 2^10 = 1024 possible outcomes, only 10 of which yield 9 tails and one heads.
+
+Hence, the exact probability of the given result is the p-value, which is 10/1024=0.0098
+Therefore, we can reject the null hypothesis at a 0.05 significance level.
+Steps to Approximate Binomial with Normal Check Conditions: Ensure \(np\ge 5\) and \(n(1-p)\ge 5\). If not, the approximation may not be accurate.Calculate Parameters:Mean (\(\mu \)): \(np\)Standard Deviation (\(\sigma \)): \(\sqrt{np(1-p)}\) (where \(q=1-p\))
+
+  #2. Describe precision and recall and give their formulas. What is their importance and what is the nature of the tradeoff between the two?
+Firstly, both precision and recall are terms used within a classification context in which a model predicts a particular response (in this case, a binary one, such as has disease / does not have disease). Thus, possible outcomes can be false positive, true positive, false negative, and false negative, with the first part of the term referring to whether the model prediction was correct (true) or incorrect (false) and the second part referring to the prediction output by the model (positive or negative). So, in a false positive, for example, the model predicts a positive but was incorrect in doing so. (For example, it predicted the presence of a disease when in reality there was no disease.)
+
+Precision is the number of true positives divided by the sum of true positives and false positives, i.e. TP/(TP+FP)
+It is the proportion of the positive classifier predictions that were, in fact, positive. Maximizing this is important since we want our model to be correct when predicting a positive class.
+
+Recall is the number of true positives divided by the sum of true positives and false negatives, i.e. TP/(TP + FN)
+Therefore, it is the percentage of total positive cases captured. Recall is important to maximize since we want our model to capture all of the positive cases in the relevant universe.
+
+Both metrics are relevant in evaluating a classification algorithm, but we need to do that carefully, because a change in one leads to a change in the other, and so maximizing both is not an easy task. The tradeoff between the two metrics arises from what aspect of the problem being analyzed is more important in the context of the classification problem at hand.
+
+For example, in the prior example, by not identifying a life-threatening disease in a patient (a false negative), the patient’s life is being put at risk. Likewise with a false positive (deeming someone as having the disease when they do not), the patient may undergo treatment having unpleasant, harmful side effects. Since there may be relative weightings between these outcomes, a tradeoff between precision and recall needs to be considered.
