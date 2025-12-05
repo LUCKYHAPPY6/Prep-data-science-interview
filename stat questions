@@ -25,3 +25,16 @@ Therefore, it is the percentage of total positive cases captured. Recall is impo
 Both metrics are relevant in evaluating a classification algorithm, but we need to do that carefully, because a change in one leads to a change in the other, and so maximizing both is not an easy task. The tradeoff between the two metrics arises from what aspect of the problem being analyzed is more important in the context of the classification problem at hand.
 
 For example, in the prior example, by not identifying a life-threatening disease in a patient (a false negative), the patient’s life is being put at risk. Likewise with a false positive (deeming someone as having the disease when they do not), the patient may undergo treatment having unpleasant, harmful side effects. Since there may be relative weightings between these outcomes, a tradeoff between precision and recall needs to be considered.
+#3. A fair die is rolled repeatedly until a number larger than 4 is observed.
+
+What's the probability that it takes you 4 rolls to roll a number greater than 4?
+Taking 4 rolls to roll a number greater than 4 means that on the first 3 rolls you rolled 4 or less, and the last roll you rolled a number greater than 4.
+
+The probability of rolling 4 or less: 2/3
+
+The probability of rolling 4 or less, 3 times in a row, is: 
+(2/3) ^3
+
+The probability of rolling 4 or less 3 times in a row, combined with rolling above a 4 on the 4th roll is:
+
+(2/3)^3 * (1/3) = 8/81
