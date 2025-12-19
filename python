@@ -1,1 +1,58 @@
+Given an integer num, return its string representation in base 13.
 
+In case you don’t use base 13 that much (who does, right?), here’s a quick rundown: just like base 10 uses digits from 0 to 9. But also for 10, 11 and 12, we use the letters A, B, and C.
+def convertToBase13(num):
+    if num == 0:
+        return "0"
+    
+    base13_digits = "0123456789ABC"
+    digits_arr = []
+    positive = abs(num)
+    
+    while positive > 0:
+        # Append to list
+        digits_arr.append(base13_digits[positive % 13])  
+        positive = positive // 13
+    
+    reversed_digits = digits_arr[::-1]
+    # Join list into a string
+    result = ''.join(reversed_digits)  
+    
+    if num < 0:
+        return "-" + result
+    else:
+        return result
+
+def convertToBase13(num):
+    if num == 0:
+        return "0"
+
+    # Digits for base 13
+    base13_digits = "0123456789ABC"  
+    digits = ""
+    positive = abs(num)
+    
+    while positive > 0:
+        # Append digits/letters
+        digits += base13_digits[positive % 13]  
+        positive = positive // 13
+
+    # Reverse the string at the end
+    reversed_digits = digits[::-1]  
+    if num < 0:
+        return "-" + reversed_digits
+    else:
+        return reversed_digits
+def convertToBase13(num):
+    base13_digits = "0123456789ABC"
+    
+    def convertPositiveToBase13(positive_number):
+        if positive_number < 13:
+            return base13_digits[positive_number]  # Return single digit
+        else:
+            return convertPositiveToBase13(positive_number // 13) + base13_digits[positive_number % 13]
+    
+    if num < 0:
+        return "-" + convertPositiveToBase13(abs(num))
+    else:
+        return convertPositiveToBase13(num)
