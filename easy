@@ -50,6 +50,7 @@ EXCEPT
 SELECT page_id
 FROM page_likes
 order by page_id;
+
 #4. Assume you're given the table on user viewership categorised by device type where the three types are laptop, tablet, and phone.
 
 Write a query that calculates the total viewership for laptops and mobile devices where mobile is defined as the sum of tablet and phone viewership. Output the total viewership for laptops as laptop_reviews and the total viewership for mobile devices as mobile_views.
@@ -65,6 +66,7 @@ SELECT
   COUNT(*) FILTER (WHERE device_type = 'laptop') AS laptop_views,
   COUNT(*) FILTER (WHERE device_type IN ('tablet', 'phone'))  AS mobile_views 
 FROM viewership;
+
 #5. Given a table of Facebook posts, for each user who posted at least twice in 2021, write a query to find the number of days between each user’s first post of the year and last post of the year in the year 2021. Output the user and number of the days between each user's first and last post.
 
 SELECT 
@@ -74,3 +76,32 @@ FROM posts
 WHERE DATE_PART('year', post_date::DATE) = 2021 
 GROUP BY user_id
 HAVING COUNT(post_id)>1;
+
+#6. ou're provided with two tables: the advertiser table contains information about advertisers and their respective payment status, and the daily_pay table contains the current payment information for advertisers, and it only includes advertisers who have made payments.
+
+Write a query to update the payment status of Facebook advertisers based on the information in the daily_pay table. The output should include the user ID and their current payment status, sorted by the user id.
+
+The payment status of advertisers can be classified into the following categories:
+
+New: Advertisers who are newly registered and have made their first payment.
+Existing: Advertisers who have made payments in the past and have recently made a current payment.
+Churn: Advertisers who have made payments in the past but have not made any recent payment.
+Resurrect: Advertisers who have not made a recent payment but may have made a previous payment and have made a payment again recently.
+Before proceeding with the question, it is important to understand the possible transitions in the advertiser's status based on the payment status. The following table provides a summary of these transitions:
+"Current Status" column: Represents the advertiser's current status.
+"Payment Status" column: Represents the updated payment status based on the conditions
+"Payment on Day T" column: Indicates whether the advertiser made a payment on a specific day (T) or not.
+The transitions between payment statuses in the provided table can be summarized as follows:
+
+Rows 2, 4, 6, and 8: If an advertiser does not make a payment on day T, regardless of their previous status, their payment status transitions to "CHURN" as the updated status.
+Rows 1, 3, 5, and 7: If an advertiser makes a payment on day T, the status is updated to either "EXISTING" or "RESURRECT" based on their previous status. If the previous status was "CHURN," the updated status is "RESURRECT." For any other previous status, the updated status is "EXISTING."
+SELECT coalesce(a.user_id, p.user_id) as user_id,
+case when paid is null then 'CHURN'
+     when paid is not null and status ='CHURN' then 'RESURRECT'
+     when paid is not null and status in ('NEW', 'EXISTING','RESURRECT') then 'EXISTING'
+     when paid is not null and status is null then 'NEW'
+     end as new_status
+from advertiser a
+full join daily_pay p
+on a.user_id = p.user_id
+order by user_id;
