@@ -56,3 +56,45 @@ def convertToBase13(num):
         return "-" + convertPositiveToBase13(abs(num))
     else:
         return convertPositiveToBase13(num)
+
+#2. You are given an m x n matrix. Your task is to determine if the matrix has diagonal stripes where all elements in each diagonal from top-left to bottom-right are of the same stripe—that is, they are identical.
+
+In this context, each diagonal stripe runs from the top-left corner to the bottom-right corner of the matrix. Check if every diagonal stripe consists entirely of the same number.
+
+Return True if all diagonal stripes are of the same stripe, otherwise return False.
+The elements 1, 5, 9 are on the same diagonal. Their positions are (0,0), (1,1), (2,2). The difference between their row and column (i - j) is the same for all of them: 0.
+Similarly, the elements 4, 8, 12 are also on the same diagonal. Their positions are (1,0), (2,1), (3,2), and their i - j difference is also the same: 1.
+We can use a dictionary to track diagonal elements efficiently. The key of the dictionary will be the difference i - j, and the value will be the first element we encounter for that diagonal. Then, we'll compare subsequent elements on that diagonal to the stored value. If any mismatch is found, we return False immediately. If we finish traversing the matrix without finding a mismatch, we return True.
+
+Here's how the approach works:
+
+If i - j is not in the dictionary, we store the current element in the dictionary as the first element of this diagonal.
+If i - j is already in the dictionary, we compare the stored element with the current one. If they are different, we return False immediately.
+After the entire matrix is traversed, return True if no mismatches were found.
+def is_same_stripes(matrix):
+    diagonals = {}  
+    for i in range(len(matrix)):
+        for j in range(len(matrix[0])):
+            '''
+            Check if this diagonal has been seen and 
+            if the current element matches
+            '''
+            if i - j in diagonals and diagonals[i - j] != matrix[i][j]:
+                return False  # Return False if a mismatch is found
+            else:
+            	# Store the first element of this diagonal
+                diagonals[i - j] = matrix[i][j]  
+    return True  # Return True if all diagonal elements match
+We can optimize the space by not storing the elements at all. Instead, we directly compare the current element with the previous element in the same diagonal. The previous element for any position (i, j) would be (i-1, j-1) (i.e., the element "northwest" of the current one). If the current element doesn't match the previous one, we return False.
+def is_same_stripes(matrix):
+	# Start from the second row
+    for i in range(1, len(matrix)):  
+    	# Start from the second column
+        for j in range(1, len(matrix[i])):  
+            if matrix[i][j] != matrix[i-1][j-1]:
+                return False            
+    return True
+
+
+
+
